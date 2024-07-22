@@ -5,15 +5,12 @@ from PIL import Image
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
-    bio = models.TextField(blank=True)
     
     def __str__(self):
-        return f'{self.user.username}, profile'
-    
+        return f'{self.user.username} Profile'
     
     def save(self, *args, **kwargs):
-        # your custom save logic here
-        super(Profile, self).save(*args, **kwargs)
+        super().save(*args, **kwargs)
         
         img = Image.open(self.image.path)
         
@@ -21,4 +18,30 @@ class Profile(models.Model):
             output_size = (250, 250)
             img.thumbnail(output_size)
             img.save(self.image.path)
+
+
+
+
+# from django.db import models
+# from django.contrib.auth.models import User
+# from PIL import Image
+
+# class Profile(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    
+    
+#     def __str__(self):
+#         return f'{self.user.username}, profile'
+    
+    
+#     def save(self):
+#         super().save()
+        
+#         img = Image.open(self.image.path)
+        
+#         if img.height > 250 or img.width > 250:
+#             output_size = (250, 250)
+#             img.thumbnail(output_size)
+#             img.save(self.image.path)
 
